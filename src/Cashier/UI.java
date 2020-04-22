@@ -21,6 +21,7 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 
 import java.awt.SystemColor;
+import javax.swing.JLabel;
 
 public class UI {
 
@@ -41,6 +42,7 @@ public class UI {
 	private JButton btnEnter;
 	private JButton btnClear;
 	private JButton btnBackSpace;
+	private static JTextField txtTransactionComplete;
 
 	/**
 	 * Launch the application.
@@ -277,17 +279,30 @@ public class UI {
 		});
 		btnNewButton.setBounds(10, 30, 89, 46);
 		frame.getContentPane().add(btnNewButton);
+		
+		txtTransactionComplete = new JTextField();
+		txtTransactionComplete.setBorder(null);
+		txtTransactionComplete.setBackground(SystemColor.menu);
+		txtTransactionComplete.setFont(new Font("Arial", Font.PLAIN, 24));
+		txtTransactionComplete.setBounds(316, 518, 242, 40);
+		frame.getContentPane().add(txtTransactionComplete);
+		txtTransactionComplete.setColumns(10);
 	}
 	
 	private static void handleButton(String btnValue) {
-		DecimalFormat df = new DecimalFormat("0.##");
+		DecimalFormat df = new DecimalFormat("0.00");
 		df.setRoundingMode(RoundingMode.DOWN);
 		switch(btnValue) {
 			case "Clear":
 				cashTaken = "";
 				break;
 			case "1": case "2": case "3": case "4": case "5": case "6": case "7": case "8": case "9": case "0":
-				cashTaken += btnValue;
+				if(cashTaken.contains(".")) {
+					if(cashTaken.substring(cashTaken.indexOf(".")).length() <= 2 ) {
+						cashTaken += btnValue;
+					}
+				}
+				else cashTaken += btnValue;
 				break;
 			case ".":
 				if(!cashTaken.contains(".")) {
@@ -302,13 +317,13 @@ public class UI {
 				resultStr = df.format(Double.valueOf(resultStr));
 				Total = resultStr;
 				txtOrderTotal.setText("Order Total: $" + Total);
+				if(result == 0) {
+					txtTransactionComplete.setText("Transaction Complete");
+				}
 				
 		}
 
-		if(cashTaken.contains(".") && btnValue != ".") {
-			cashTaken = df.format(Double.valueOf(cashTaken));
-			calc.setText(cashTaken);
-		}
-		else calc.setText(cashTaken);
+		
+		calc.setText(cashTaken);
 	}
 }
