@@ -7,15 +7,27 @@ import javax.swing.JTextField;
 import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 
+import org.bson.Document;
+
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
+
+import java.awt.SystemColor;
+
 public class UI {
 
-	private JFrame frame;
-	private JTextField txtOrderTotal;
-	private int Total = 4000;
-	private JTextField calc;
+	JFrame frame;
+	private static JTextField txtOrderTotal;
+	private static String Total = "";
+	private static JTextField calc;
 	private static String cashTaken = "";
 	private JButton btn7;
 	private JButton btn8;
@@ -37,7 +49,7 @@ public class UI {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					UI window = new UI();
+					UI window = new UI(Total);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -49,32 +61,34 @@ public class UI {
 	/**
 	 * Create the application.
 	 */
-	public UI() {
-		initialize();
+	public UI(String total) {
+		initialize(total);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initialize(String total) {
+		Total = total;
 		frame = new JFrame();
-		frame.getContentPane().setBackground(Color.DARK_GRAY);
-		frame.setBounds(100, 100, 929, 743);
+		frame.getContentPane().setBackground(SystemColor.menu);
+		frame.setBounds(100, 100, 925, 740);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		txtOrderTotal = new JTextField();
+		txtOrderTotal.setEditable(false);
 		txtOrderTotal.setHorizontalAlignment(SwingConstants.CENTER);
 		txtOrderTotal.setFont(new Font("Arial", Font.BOLD, 28));
-		txtOrderTotal.setText("Order Total: $4000");
-		txtOrderTotal.setBounds(304, 11, 266, 73);
+		txtOrderTotal.setText("Order Total: $" + Total);
+		txtOrderTotal.setBounds(145, 11, 629, 73);
 		frame.getContentPane().add(txtOrderTotal);
 		txtOrderTotal.setColumns(10);
 		
 		
 		calc = new JTextField();
 		calc.setFont(new Font("Times New Roman", Font.BOLD, 30));
-		calc.setText("");
+		calc.setText(cashTaken);
 		calc.setBounds(304, 163, 266, 40);
 		frame.getContentPane().add(calc);
 		calc.setColumns(10);
@@ -87,7 +101,7 @@ public class UI {
 			}
 		});
 		btn0.setFont(new Font("Times New Roman", Font.BOLD, 27));
-		btn0.setBounds(402, 440, 70, 56);
+		btn0.setBounds(304, 440, 168, 56);
 		frame.getContentPane().add(btn0);
 		
 		btn7 = new JButton("7");
@@ -227,7 +241,7 @@ public class UI {
 			}
 		});
 		btnClear.setFont(new Font("Times New Roman", Font.BOLD, 27));
-		btnClear.setBounds(665, 239, 99, 56);
+		btnClear.setBounds(665, 239, 120, 56);
 		frame.getContentPane().add(btnClear);
 		
 		btnBackSpace = new JButton("<---");
@@ -239,11 +253,62 @@ public class UI {
 			}
 		});
 		btnBackSpace.setFont(new Font("Times New Roman", Font.BOLD, 27));
-		btnBackSpace.setBounds(665, 373, 99, 56);
+		btnBackSpace.setBounds(675, 373, 99, 56);
 		frame.getContentPane().add(btnBackSpace);
+		
+		JButton btnDecimal = new JButton(".");
+		btnDecimal.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String btnValue = ((JButton) e.getSource()).getText();
+				System.out.print(btnValue);
+				UI.handleButton(btnValue);
+			}
+		});
+		btnDecimal.setFont(new Font("Times New Roman", Font.BOLD, 27));
+		btnDecimal.setBounds(500, 440, 70, 56);
+		frame.getContentPane().add(btnDecimal);
+		
+		JButton btnNewButton = new JButton("Back");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ChooseOption choose = new ChooseOption();
+				choose.frame.setVisible(true);
+			}
+		});
+		btnNewButton.setBounds(10, 30, 89, 46);
+		frame.getContentPane().add(btnNewButton);
 	}
 	
 	private static void handleButton(String btnValue) {
+		DecimalFormat df = new DecimalFormat("0.##");
+		df.setRoundingMode(RoundingMode.DOWN);
+		switch(btnValue) {
+			case "Clear":
+				cashTaken = "";
+				break;
+			case "1": case "2": case "3": case "4": case "5": case "6": case "7": case "8": case "9": case "0":
+				cashTaken += btnValue;
+				break;
+			case ".":
+				if(!cashTaken.contains(".")) {
+					cashTaken += btnValue;
+				}
+				break;
+			case "<---":
+				cashTaken = cashTaken.substring(0 , cashTaken.length()-1);
+			case "Enter":
+				double result = Double.valueOf(Total) - Double.valueOf(cashTaken);
+				String resultStr = String.valueOf(result);
+				resultStr = df.format(Double.valueOf(resultStr));
+				Total = resultStr;
+				txtOrderTotal.setText("Order Total: $" + Total);
+				
+		}
 
+		if(cashTaken.contains(".") && btnValue != ".") {
+			cashTaken = df.format(Double.valueOf(cashTaken));
+			calc.setText(cashTaken);
+		}
+		else calc.setText(cashTaken);
 	}
 }
