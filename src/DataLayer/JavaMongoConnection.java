@@ -1,4 +1,4 @@
-package com.POS.mongo;
+package DataLayer;
 
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoClient;
