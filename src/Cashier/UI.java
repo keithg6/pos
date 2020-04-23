@@ -25,7 +25,7 @@ import javax.swing.JLabel;
 
 public class UI {
 
-	JFrame frame;
+	public static JFrame frame;
 	private static JTextField txtOrderTotal;
 	private static String Total = "";
 	private static JTextField calc;
@@ -43,6 +43,7 @@ public class UI {
 	private JButton btnClear;
 	private JButton btnBackSpace;
 	private static JTextField txtTransactionComplete;
+	private static JButton btnDone;
 
 	/**
 	 * Launch the application.
@@ -270,23 +271,30 @@ public class UI {
 		btnDecimal.setBounds(500, 440, 70, 56);
 		frame.getContentPane().add(btnDecimal);
 		
-		JButton btnNewButton = new JButton("Back");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnBack = new JButton("Back");
+		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ChooseOption choose = new ChooseOption();
 				choose.frame.setVisible(true);
 			}
 		});
-		btnNewButton.setBounds(10, 30, 89, 46);
-		frame.getContentPane().add(btnNewButton);
+		btnBack.setBounds(10, 30, 89, 46);
+		frame.getContentPane().add(btnBack);
 		
-		txtTransactionComplete = new JTextField();
-		txtTransactionComplete.setBorder(null);
-		txtTransactionComplete.setBackground(SystemColor.menu);
-		txtTransactionComplete.setFont(new Font("Arial", Font.PLAIN, 24));
-		txtTransactionComplete.setBounds(316, 518, 242, 40);
-		frame.getContentPane().add(txtTransactionComplete);
-		txtTransactionComplete.setColumns(10);
+		JButton btnDone = new JButton("DONE");
+		btnDone.setFont(new Font("Arial", Font.PLAIN, 36));
+		btnDone.setBounds(47, 272, 143, 90);
+		frame.getContentPane().add(btnDone);
+		btnDone.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MongoClient mongo = new MongoClient(new MongoClientURI("mongodb+srv://User:Password@cluster0-ok3dp.mongodb.net/test?retryWrites=true&w=majority"));
+				MongoDatabase db = mongo.getDatabase("POS");
+				MongoCollection<Document> collection = db.getCollection("orders");
+				collection.findOneAndUpdate(Filters.eq("id", "1"), Filters.all("Done", "true"));
+			}
+		});
+		
+		
 	}
 	
 	private static void handleButton(String btnValue) {
@@ -317,8 +325,16 @@ public class UI {
 				resultStr = df.format(Double.valueOf(resultStr));
 				Total = resultStr;
 				txtOrderTotal.setText("Order Total: $" + Total);
-				if(result == 0) {
-					txtTransactionComplete.setText("Transaction Complete");
+				if(result <= 0) {
+					txtTransactionComplete = new JTextField();
+					txtTransactionComplete.setBorder(null);
+					txtTransactionComplete.setBackground(SystemColor.menu);
+					txtTransactionComplete.setFont(new Font("Arial", Font.PLAIN, 24));
+					txtTransactionComplete.setBounds(316, 518, 242, 40);
+					frame.getContentPane().add(txtTransactionComplete);
+					txtTransactionComplete.setColumns(10);
+					txtTransactionComplete.setText("Transaction Complete");			
+					
 				}
 				
 		}

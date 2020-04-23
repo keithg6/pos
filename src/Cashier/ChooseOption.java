@@ -41,10 +41,11 @@ public class ChooseOption {
 		
 
 		
-		
 //		Document document = new Document("id", "1")
-//				.append("price", "15.50");
+//				.append("price", "15.50")
+//				.append("Done", "false");
 //		collection.insertOne(document);
+		
 		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
