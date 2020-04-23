@@ -285,6 +285,14 @@ public class UI {
 		btnBack.setBounds(10, 30, 89, 46);
 		frame.getContentPane().add(btnBack);
 		
+		txtTransactionComplete = new JTextField();
+		txtTransactionComplete.setBorder(null);
+		txtTransactionComplete.setBackground(SystemColor.menu);
+		txtTransactionComplete.setFont(new Font("Arial", Font.PLAIN, 24));
+		txtTransactionComplete.setBounds(316, 518, 242, 40);
+		frame.getContentPane().add(txtTransactionComplete);
+		txtTransactionComplete.setColumns(10);
+		
 		JButton btnDone = new JButton("DONE");
 		btnDone.setFont(new Font("Arial", Font.PLAIN, 36));
 		btnDone.setBounds(47, 272, 143, 90);
@@ -319,7 +327,8 @@ public class UI {
 				}
 				break;
 			case "<---":
-				cashTaken = cashTaken.substring(0 , cashTaken.length()-1);
+				cashTaken = cashTaken.substring(0, cashTaken.length()-1);
+				break;
 			case "Enter":
 				double result = Double.valueOf(Total) - Double.valueOf(cashTaken);
 				String resultStr = String.valueOf(result);
@@ -327,20 +336,14 @@ public class UI {
 				Total = resultStr;
 				txtOrderTotal.setText("Order Total: $" + Total);
 				if(result <= 0) {
-					txtTransactionComplete = new JTextField();
-					txtTransactionComplete.setBorder(null);
-					txtTransactionComplete.setBackground(SystemColor.menu);
-					txtTransactionComplete.setFont(new Font("Arial", Font.PLAIN, 24));
-					txtTransactionComplete.setBounds(316, 518, 242, 40);
-					frame.getContentPane().add(txtTransactionComplete);
-					txtTransactionComplete.setColumns(10);
-					txtTransactionComplete.setText("Transaction Complete");			
 					
+					txtTransactionComplete.setText("Transaction Complete");	
 				}
+				break;
 				
 		}
 
-		
+		System.out.println(cashTaken);
 		calc.setText(cashTaken);
 	}
 }
