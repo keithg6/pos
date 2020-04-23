@@ -12,13 +12,17 @@ import java.text.DecimalFormat;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 
+import org.bson.BSONObject;
 import org.bson.Document;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.UpdateOptions;
 
 import java.awt.SystemColor;
 import javax.swing.JLabel;
@@ -284,15 +288,12 @@ public class UI {
 		JButton btnDone = new JButton("DONE");
 		btnDone.setFont(new Font("Arial", Font.PLAIN, 36));
 		btnDone.setBounds(47, 272, 143, 90);
-		frame.getContentPane().add(btnDone);
-		btnDone.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				MongoClient mongo = new MongoClient(new MongoClientURI("mongodb+srv://User:Password@cluster0-ok3dp.mongodb.net/test?retryWrites=true&w=majority"));
-				MongoDatabase db = mongo.getDatabase("POS");
-				MongoCollection<Document> collection = db.getCollection("orders");
-				collection.findOneAndUpdate(Filters.eq("id", "1"), Filters.all("Done", "true"));
-			}
-		});
+//		frame.getContentPane().add(btnDone);
+//		btnDone.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				
+//			}
+//		});
 		
 		
 	}
