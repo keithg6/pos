@@ -12,6 +12,8 @@ import java.awt.event.ActionEvent;
 
 public class ChooseOrder {
 
+//	CODE WRITTEN BY KEITH
+	
 	private JFrame frame;
 	private JTextField txtHelloCashier;
 	private JTextField txtSelect;

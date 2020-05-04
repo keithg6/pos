@@ -28,6 +28,8 @@ import java.awt.SystemColor;
 import javax.swing.JLabel;
 
 public class UI {
+	
+//	CODE WRITTEN BY KEITH
 
 	public static JFrame frame;
 	private static JTextField txtOrderTotal;
