@@ -14,6 +14,7 @@ import javax.swing.SwingConstants;
 
 import org.bson.BSONObject;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
@@ -33,7 +34,7 @@ public class UI {
 
 	public static JFrame frame;
 	private static JTextField txtOrderTotal;
-	private static String Total = "";
+	private static String Total;
 	private static JTextField calc;
 	private static String cashTaken = "";
 	private JButton btn7;
@@ -50,6 +51,8 @@ public class UI {
 	private JButton btnBackSpace;
 	private static JTextField txtTransactionComplete;
 	private static JButton btnDone;
+	private static Document myDoc;
+	private static MongoCollection<Document> collection;
 
 	/**
 	 * Launch the application.
@@ -58,7 +61,7 @@ public class UI {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					UI window = new UI(Total);
+					UI window = new UI(myDoc);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -70,15 +73,20 @@ public class UI {
 	/**
 	 * Create the application.
 	 */
-	public UI(String total) {
-		initialize(total);
+	public UI(Document Doc) {
+		initialize(Doc);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize(String total) {
-		Total = total;
+	private void initialize(Document Doc) {
+		MongoClient mongo = new MongoClient(new MongoClientURI("mongodb+srv://gerardo:group4@cluster0-a37wq.mongodb.net/POSsystem?retryWrites=true&w=majority"));
+		MongoDatabase db = mongo.getDatabase("POSsystem");
+		MongoCollection<Document> collection = db.getCollection("Transaction");
+		
+		myDoc = Doc;
+		Total = myDoc.get("Total").toString();
 		frame = new JFrame();
 		frame.getContentPane().setBackground(SystemColor.menu);
 		frame.setBounds(100, 100, 925, 740);
@@ -280,7 +288,7 @@ public class UI {
 		JButton btnBack = new JButton("Back");
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ChooseOption choose = new ChooseOption();
+				ChooseOption choose = new ChooseOption(myDoc);
 				choose.frame.setVisible(true);
 			}
 		});
@@ -338,7 +346,12 @@ public class UI {
 				Total = resultStr;
 				txtOrderTotal.setText("Order Total: $" + Total);
 				if(result <= 0) {
-					
+					BasicDBObject document = new BasicDBObject("$set", new BasicDBObject().append("Total", "0"))
+							.append("$set", new BasicDBObject().append("isDone", "true"));
+					BasicDBObject query = new BasicDBObject();
+					query.put("_id", new ObjectId("5e9b9be73c661330e6509e14"));
+					Document test = collection.find(query).first();
+					System.out.println(test.get("_id").toString());
 					txtTransactionComplete.setText("Transaction Complete");	
 				}
 				break;

@@ -32,6 +32,7 @@ public class ChooseOption {
 	private JTextField txtOrder;
 	private JTextField textPrompt;
 	public static String cost = "";
+	private static Document myDoc;
 	
 	
 
@@ -51,7 +52,7 @@ public class ChooseOption {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ChooseOption window = new ChooseOption();
+					ChooseOption window = new ChooseOption(myDoc);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -63,19 +64,16 @@ public class ChooseOption {
 	/**
 	 * Create the application.
 	 */
-	public ChooseOption() {
-		initialize();
+	public ChooseOption(Document Doc) {
+		initialize(Doc);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
-		MongoClient mongo = new MongoClient(new MongoClientURI("mongodb+srv://User:Password@cluster0-ok3dp.mongodb.net/test?retryWrites=true&w=majority"));
-		MongoDatabase db = mongo.getDatabase("POS");
-		MongoCollection<Document> collection = db.getCollection("orders");
-		Document myDoc = collection.find(Filters.eq("id", "1")).first();
-		cost = myDoc.getString("price");
+	private void initialize(Document Doc) {
+		myDoc = Doc;
+		cost = myDoc.get("Total").toString();
 		
 		frame = new JFrame();
 		frame.setBounds(100, 100, 925, 740);
@@ -104,7 +102,7 @@ public class ChooseOption {
 		btnCash.setFont(new Font("Arial", Font.PLAIN, 24));
 		btnCash.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-					UI ui = new UI(cost);
+					UI ui = new UI(myDoc);
 					ui.frame.setVisible(true);
 			}
 		});
