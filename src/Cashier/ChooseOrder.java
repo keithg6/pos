@@ -25,7 +25,7 @@ public class ChooseOrder {
 
 //	CODE WRITTEN BY KEITH
 	
-	private JFrame frame;
+	public JFrame frame;
 	private JTextField txtHelloCashier;
 	private JTextField txtSelect;
 	private JTextField textField;

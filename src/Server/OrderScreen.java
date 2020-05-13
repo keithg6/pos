@@ -36,7 +36,7 @@ public class OrderScreen {
 	
 //	CODE WRITTEN BY DEREK
 
-	private JFrame frmPointOfSale;
+	public JFrame frmPointOfSale;
 	
 	
 	protected Component chkHamburger;
@@ -51,7 +51,7 @@ public class OrderScreen {
 	private JTextField txtWater;
 	private JTextField txtOrangeJuice;
 	
-	private JFrame frame;
+	public JFrame frame;
 	
 
 	/**
