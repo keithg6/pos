@@ -26,7 +26,9 @@ import org.bson.Document;
 
 public class ChooseOption {
 
-//	CODE WRITTEN BY KEITH
+	// written by: Keith Gordon
+	// tested by: Keith Gordon
+	// debugged by: Keith Gordon
 	
 	JFrame frame;
 	private JTextField txtOrder;

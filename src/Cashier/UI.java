@@ -33,7 +33,9 @@ import javax.swing.JLabel;
 
 public class UI {
 	
-//	CODE WRITTEN BY KEITH
+	// written by: Keith Gordon
+	// tested by: Keith Gordon
+	// debugged by: Keith Gordon
 
 	public static JFrame frame;
 	private static JTextField txtOrderTotal;

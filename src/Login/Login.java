@@ -3,6 +3,7 @@ package Login;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import org.bson.Document;
 import org.bson.types.ObjectId;
@@ -22,8 +23,14 @@ import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 import javax.swing.JPasswordField;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 public class Login {
+	
+	// written by: Keith Gordon
+	// tested by: Keith Gordon
+	// debugged by: Keith Gordon
 	
 	//SAMPLE IDS
 	//SERVER: 5e9a865b1c9d4400002ae679
@@ -200,7 +207,7 @@ public class Login {
 				Login.handleButton(btnValue);
 			}
 		});
-		btnBack.setBounds(769, 187, 89, 65);
+		btnBack.setBounds(785, 187, 89, 65);
 		frame.getContentPane().add(btnBack);
 		
 		JButton btnClear = new JButton("Clear");
@@ -217,7 +224,7 @@ public class Login {
 		
 		input = new JPasswordField();
 		input.setFont(new Font("Times New Roman", Font.PLAIN, 28));
-		input.setBounds(386, 50, 287, 49);
+		input.setBounds(386, 92, 287, 49);
 		frame.getContentPane().add(input);
 		
 		JButton btnEnter = new JButton("Enter");
@@ -231,6 +238,12 @@ public class Login {
 		});
 		btnEnter.setBounds(769, 382, 117, 65);
 		frame.getContentPane().add(btnEnter);
+		
+		JLabel lblNewLabel = new JLabel("Login using your ID");
+		lblNewLabel.setFont(new Font("Times New Roman", Font.PLAIN, 26));
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setBounds(412, 21, 224, 38);
+		frame.getContentPane().add(lblNewLabel);
 	}
 	
 	private static void handleButton(String btnValue) {
@@ -263,7 +276,7 @@ public class Login {
 				}
 				}
 				catch(Exception e) {
-					System.out.println(e.getMessage());
+					JOptionPane.showMessageDialog(null, "No user found");
 				}
 			break;
 		}

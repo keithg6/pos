@@ -3,6 +3,7 @@ package Cashier;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.Font;
 import javax.swing.SwingConstants;
@@ -23,7 +24,9 @@ import java.awt.event.ActionEvent;
 
 public class ChooseOrder {
 
-//	CODE WRITTEN BY KEITH
+	// written by: Keith Gordon
+	// tested by: Keith Gordon
+	// debugged by: Keith Gordon
 	
 	//EXAMPLE ORDER IDS
 	//5e9b9be73c661330e6509e14
@@ -97,12 +100,17 @@ public class ChooseOrder {
 		JButton btnNewButton = new JButton("ENTER");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				try {
 				String orderID = textField.getText();
 				BasicDBObject query = new BasicDBObject();
 				query.put("_id", new ObjectId(orderID));
 				Document myDoc = collection.find(query).first();
 				ChooseOption choose = new ChooseOption(myDoc);
 				choose.frame.setVisible(true);
+				}
+				catch(Exception exception) {
+					JOptionPane.showMessageDialog(null, "No order found");
+				}
 			}
 		});
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
