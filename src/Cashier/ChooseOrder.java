@@ -25,6 +25,10 @@ public class ChooseOrder {
 
 //	CODE WRITTEN BY KEITH
 	
+	//EXAMPLE ORDER IDS
+	//5e9b9be73c661330e6509e14
+	//5e9cc8f71c9d4400001d6bdb
+	
 	public JFrame frame;
 	private JTextField txtHelloCashier;
 	private JTextField txtSelect;

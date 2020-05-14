@@ -12,8 +12,10 @@ import java.text.DecimalFormat;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 
+import org.bson.BSON;
 import org.bson.BSONObject;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import com.mongodb.BasicDBObject;
@@ -24,6 +26,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.UpdateOptions;
+import com.mongodb.client.model.Updates;
 
 import java.awt.SystemColor;
 import javax.swing.JLabel;
@@ -83,7 +86,7 @@ public class UI {
 	private void initialize(Document Doc) {
 		MongoClient mongo = new MongoClient(new MongoClientURI("mongodb+srv://gerardo:group4@cluster0-a37wq.mongodb.net/POSsystem?retryWrites=true&w=majority"));
 		MongoDatabase db = mongo.getDatabase("POSsystem");
-		MongoCollection<Document> collection = db.getCollection("Transaction");
+		collection = db.getCollection("Transaction");
 		
 		myDoc = Doc;
 		Total = myDoc.get("Total").toString();
@@ -346,12 +349,14 @@ public class UI {
 				Total = resultStr;
 				txtOrderTotal.setText("Order Total: $" + Total);
 				if(result <= 0) {
-					BasicDBObject document = new BasicDBObject("$set", new BasicDBObject().append("Total", "0"))
-							.append("$set", new BasicDBObject().append("isDone", "true"));
 					BasicDBObject query = new BasicDBObject();
-					query.put("_id", new ObjectId("5e9b9be73c661330e6509e14"));
-					Document test = collection.find(query).first();
-					System.out.println(test.get("_id").toString());
+					query.put("_id", myDoc.get("_id"));
+					BasicDBObject newDocument = new BasicDBObject();
+					newDocument.put("isDone", true);
+					newDocument.put("Total", 0.00);
+					BasicDBObject updateObject = new BasicDBObject();
+					updateObject.put("$set", newDocument);
+					collection.updateOne(query, updateObject); // (4)
 					txtTransactionComplete.setText("Transaction Complete");	
 				}
 				break;
