@@ -16,6 +16,7 @@ import com.mongodb.client.MongoDatabase;
 
 import Cashier.ChooseOrder;
 import Server.OrderScreen;
+import inventoryManage.Inventory;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -35,6 +36,8 @@ public class Login {
 	//SAMPLE IDS
 	//SERVER: 5e9a865b1c9d4400002ae679
 	//CASHIER: 5e9a86451c9d4400002ae678
+	//MANAGER: 5e97f3bd1c9d440000385ef8
+
 	
 	
 
@@ -272,6 +275,10 @@ public class Login {
 				case "Server":
 					OrderScreen order = new OrderScreen();
 					order.frmPointOfSale.setVisible(true);
+				break;
+				case "Manager":
+					Inventory inventory = new Inventory();
+					inventory.setVisible(true);
 				break;
 				}
 				}

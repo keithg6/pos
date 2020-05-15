@@ -55,7 +55,7 @@ public class Inventory extends JFrame {
 	
 	// Written by Gerardo Lomas
 
-	private JPanel contentPane;
+	public JPanel contentPane;
 	private JTextField txtItemName;
 	private JTable table;
 	private JTextField txtPrice;
