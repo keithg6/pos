@@ -53,7 +53,9 @@ import javax.swing.border.BevelBorder;
 
 public class Inventory extends JFrame {
 	
-	// Written by Gerardo Lomas
+		// written by: Gerardo Lomas
+		// tested by: Gerardo Lomas
+		// debugged by: Gerardo Lomas
 
 	public JPanel contentPane;
 	private JTextField txtItemName;

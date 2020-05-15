@@ -9,7 +9,9 @@ import com.mongodb.client.MongoIterable;
 public class JavaMongoConnection
 {
 	
-//	CODE WRITTEN BY GERARDO
+	// written by: Gerardo Lomas
+	// tested by: Gerardo Lomas
+	// debugged by: Gerardo Lomas
 
 	public static void main (String args[])
 	{

@@ -34,7 +34,9 @@ import java.awt.event.MouseEvent;
 
 public class OrderScreen {
 	
-//	CODE WRITTEN BY DEREK
+	// written by: Derek Villegas Arias
+	// tested by: Derek Villegas Arias
+	// debugged by: Derek Villegas Arias
 
 	public JFrame frmPointOfSale;
 	
