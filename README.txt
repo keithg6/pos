@@ -1,1 +1,1 @@
-The goal of this project is to create a functional POS (Point of Sale system). To run the project, you simply need to have a Java Development Kit.
+
